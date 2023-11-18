@@ -587,16 +587,9 @@ let myButtonStyle = getButtonStyle('medium'); // OK
 myButtonStyle = getButtonStyle('extra-large'); // Error: Argument of type '"extra-large"' is not assignable to parameter of type 'ButtonSize'.
 ```
 
-
 Тут, якщо ми спробуємо викликати функцію **getButtonStyle** з аргументом `"extra-large"`, **TypeScript** видасть помилку на етапі компіляції, оскільки "extra-large" не є допустимим значенням для **ButtonSize**.
 
-
-
-
-
-
-
-
+## [Типи для методів та функцій](Types_for_methods&functions.md)
 
 
 
