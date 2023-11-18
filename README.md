@@ -113,6 +113,23 @@ age: 30
 
 https://stackblitz.com/edit/typescript-p76oyj?file=complexType%2F1_object.1.ts
 
+https://typescript-p76oyj.stackblitz.io
+
+complexType/1_object.1.ts
+
+https://stackblitz.com/edit/typescript-p76oyj?embed=1&file=complexType%2F1_object.1.ts
+
+import sdk from '@stackblitz/sdk'
+
+sdk.embedProjectId(
+  'elementOrId',
+  'typescript-p76oyj',
+  {
+    forceEmbedLayout: true,
+    openFile: 'complexType/1_object.1.ts',
+  }
+);
+
 
 У першому випадку ми отримали помилку через те, що відсутня властивість name, а в другому, що там використовується неправильний тип даних.
 
