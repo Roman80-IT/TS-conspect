@@ -7,66 +7,8 @@
 - Advanced Types;
 - Generics.
 
-## Прості (скалярні) типи
+## [Прості (скалярні) типи](./Prosti typy.md)
 
-Базові типи - розбиремо ті типи, які є в `JavaScript`, і почнемо зі скалярних типів (прості типи, що містять одне значення).
-
-**boolean**: логічний тип даних, який може приймати значення **true** або **false**:
-
-```ts
-let isDone: boolean = false;
-```
-
-**number**: числовий тип даних для цілих та дійсних чисел.
-
-```ts
-let decimal: number = 6; // десяткові
-let float: number = 3.14; // речові або число з плаваючою крапкою
-let hex: number = 0xf00d; // шістнадцяткове
-let binary: number = 0b1010; // двійкове
-let octal: number = 0o744; // вісімкове
-```
-
-**string**: текстовий тип даних для символів та рядків
-
-```ts
-let color: string = "blue";
-```
-
-**null** та **undefined**: два спеціальні типи, що відповідають значенням `null` і `undefined` відповідно:
-
-```ts
-let empty: null = null;
-let notParam: undefined = undefined;
-```
-
-Не обов'язково вказувати тип даних, якщо передати його явно:
-
-```ts
-const num = 10;
-const str = 'Some string';
-const bool = true;
-const empty = null;
-const notParam = undefined;
-```
-
-Передамо в аргумент функції тип даних:
-
-```ts
-function foo (num: number, str: string, bool: boolean, empty: null) {
-// Some logic
-}
-```
-
-Якщо ми задаємо значення за замовчуванням у функції, тип вказувати не потрібно:
-
-```ts
-function foo (num = 10, str = 'Some string', bool = true, empty = null){
-// Some logic
-}
-```
-
----
 
 ## Складні типи
 
@@ -573,42 +515,80 @@ if (isDog(pet)) {
 
 Дуже часто краще використовувати **Union Type** замість **enum** для перерахування всіх допустимих значень. Це особливо зручно робити у зв'язці з **Literal Type**.
 
-Intersection Type
+## Intersection Type
+
+є способом об'єднання декількох типів в один. Це дозволяє створювати складні типи, комбінуючи прості. У **TypeScript** можна використовувати **символ &** для створення типу **intersection**.
+
+```ts
+type Employee = {
+  name: string;
+  id: number;
+};
+
+type Manager = {
+  employees: Employee[];
+};
+
+type CEO = Employee & Manager;
+
+const ceo: CEO = {
+  name: 'Alice',
+  id: 1,
+  employees: [
+    {
+      name: 'Bob',
+      id: 2,
+    },
+  ],
+};
+```
+
+У цьому прикладі `CEO` є **intersection** типів `Employee` і `Manager`. Це означає, що об'єкт типу CEO повинен містити всі властивості, визначені в `Employee` та `Manager`.
+
+## Literal Type
+
+це тип, що набуває конкретного значення. З ним ви можете визначити тип змінної так, щоб він набував лише певних значень.
+
+```ts
+// Тут OneOrTwo може набувати лише значення 1 або 2:
+type OneOrTwo = 1 | 2;
+let value: OneOrTwo;
+value = 1; // OK
+value = 2; // OK
+value = 3; // Error: Type '3' is not assignable to type 'OneOrTwo'.
+
+// YesOrNo може набувати тільки значення "yes" або "no":
+type YesOrNo = 'yes' | 'no';
+let answer: YesOrNo;
+answer = 'yes'; // OK
+answer = 'no'; // OK
+answer = 'maybe'; // Error: Type '"maybe"' is not assignable to type 'YesOrNo'.
+```
+
+Розглянемо бойовий приклад. Припустимо, ми маємо функцію, що приймає рядок як аргумент і повертає стилі для кнопки в залежності від переданого значення.
+
+```ts
+type ButtonSize = 'small' | 'medium' | 'large';
+
+function getButtonStyle(size: ButtonSize) {
+  switch (size) {
+    case 'small':
+      return { fontSize: '10px', padding: '5px' };
+    case 'medium':
+      return { fontSize: '14px', padding: '10px' };
+    case 'large':
+      return { fontSize: '18px', padding: '15px' };
+    default:
+      return { fontSize: '14px', padding: '10px' };
+  }
+}
+
+let myButtonStyle = getButtonStyle('medium'); // OK
+myButtonStyle = getButtonStyle('extra-large'); // Error: Argument of type '"extra-large"' is not assignable to parameter of type 'ButtonSize'.
+```
 
 
-
-Intersection type є способом об'єднання декількох типів в один. Це дозволяє створювати складні типи, комбінуючи прості. У TypeScript можна використовувати символ & для створення типу intersection.
-
-
-
-
-
-
-У цьому прикладі CEO є intersection тип Employee і Manager. Це означає, що об'єкт типу CEO повинен містити всі властивості, визначені в Employee та Manager.
-
-﻿Literal Type
-
-
-
-Literal Type — це тип, що набуває конкретного значення. З ним ви можете визначити тип змінної так, щоб він набував лише певних значень.
-
-
-
-
-
-
-Тут OneOrTwo може набувати лише значення 1 або 2, YesOrNo може набувати тільки значення "yes" або "no".
-
-
-
-Але давайте розглянемо якийсь бойовий приклад. Припустимо, ми маємо функцію, що приймає рядок як аргумент і повертає стилі для кнопки в залежності від переданого значення.
-
-
-
-
-
-
-Тут, якщо ми спробуємо викликати функцію getButtonStyle з аргументом "extra-large", TypeScript видасть помилку на етапі компіляції, оскільки "extra-large" не є допустимим значенням для ButtonSize.
+Тут, якщо ми спробуємо викликати функцію **getButtonStyle** з аргументом `"extra-large"`, **TypeScript** видасть помилку на етапі компіляції, оскільки "extra-large" не є допустимим значенням для **ButtonSize**.
 
 
 
