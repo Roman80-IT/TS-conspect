@@ -7,7 +7,7 @@
 - Advanced Types;
 - Generics.
 
-## [Прості (скалярні) типи](./Prosti typy.md)
+## [Прості (скалярні) типи](./Prosti_typy.md)
 
 
 ## Складні типи
